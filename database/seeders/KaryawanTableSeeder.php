@@ -18,16 +18,17 @@ class KaryawanTableSeeder extends Seeder
     {
         DB::table('tbkaryawan')->insert([
             [
-                // 'nik' => '8100081',
-                // 'nama' => 'Ujang',
-                // 'alamat' => 'Jl. Surya Sumantri No.1',
-                // 'email' => 'Ujang@gmail.com',
-                // 'password' => Hash::make('12345'),
-                // 'created_at' => now(),
-                // 'updated_at' => now(),
-                // 'idrole' => 1,
-
-                'nik' => '8100082',
+                'nik' => '8100031',
+                'nama' => 'Ujang',
+                'alamat' => 'Jl. Surya Sumantri No.1',
+                'email' => 'Ujang@gmail.com',
+                'password' => Hash::make('12345'),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'idrole' => 1,
+            ],
+            [
+                'nik' => '8100032',
                 'nama' => 'john',
                 'alamat' => 'Jl. Pajajaran No.1',
                 'email' => 'john@gmail.com',

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
-class LoginRequest extends FormRequest
+class MahasiswaLoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string'],
+            'nrp' => ['required', 'string'],
             'password' => ['required', 'string'],
         ];
     }
@@ -39,17 +39,20 @@ class LoginRequest extends FormRequest
      */
     public function authenticate(): void
     {
-        $this->ensureIsNotRateLimited();
+        $credentials = $this->only('nrp', 'password');
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
-
-            // throw ValidationException::withMessages([
-            //     'email' => trans('auth.failed'),
-            // ]);
+    // Pastikan mencari dengan 'nrp', bukan 'nik'
+    if (\App\Models\Mahasiswa::where('nrp', $credentials['nrp'])->exists()) {
+        if (!Auth::guard('mahasiswa')->attempt(['nrp' => $credentials['nrp'], 'password' => $credentials['password']], $this->boolean('remember'))) {
+            throw ValidationException::withMessages([
+                'nrp' => __('NRP atau password salah.'),
+            ]);
         }
-
-        RateLimiter::clear($this->throttleKey());
+    } else {
+        throw ValidationException::withMessages([
+            'nrp' => __('Akun tidak ditemukan sebagai Mahasiswa.'),
+        ]);
+    }
     }
 
     /**
@@ -67,12 +70,12 @@ class LoginRequest extends FormRequest
 
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
-        // throw ValidationException::withMessages([
-        //     'email' => trans('auth.throttle', [
-        //         'seconds' => $seconds,
-        //         'minutes' => ceil($seconds / 60),
-        //     ]),
-        // ]);
+        throw ValidationException::withMessages([
+            'nrp' => trans('auth.throttle', [
+                'seconds' => $seconds,
+                'minutes' => ceil($seconds / 60),
+            ]),
+        ]);
     }
 
     /**
@@ -80,6 +83,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email;')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->string('nrp')).'|'.$this->ip());
     }
 }

@@ -1,15 +1,21 @@
 <x-guest-layout>
+
+    {{-- Title --}}
+    <h2 class="font-semibold text-xl text-white leading-tight text-center py-4">
+        {{ __('Karyawan - Login') }}
+    </h2>
+
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('karyawan.login') }}">
         @csrf
 
-        <!-- nrp Address -->
+        <!-- nik Address -->
         <div>
-            <x-input-label for="nrp" :value="__('Username')" />
-            <x-text-input id="nrp" class="block mt-1 w-full" type="text" name="nrp" :value="old('nrp')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('nrp')" class="mt-2" />
+            <x-input-label for="nik" :value="__('NIK')" />
+            <x-text-input id="nik" class="block mt-1 w-full" type="text" name="nik" :value="old('nik')" required autofocus autocomplete="username" />
+            <x-input-error :messages="$errors->get('nik')" class="mt-2" />
         </div>
 
         <!-- Password -->
@@ -33,12 +39,6 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}
             </x-primary-button>

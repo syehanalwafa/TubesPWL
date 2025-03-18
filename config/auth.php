@@ -40,6 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'mahasiswa' => [
+            'driver' => 'session',
+            'provider' => 'mahasiswa',
+        ],
+        'karyawan' => [
+            'driver' => 'session',
+            'provider' => 'karyawan',
+        ],
     ],
 
     /*
@@ -64,12 +72,16 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'mahasiswa' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Mahasiswa::class, 
+        ],
+        'karyawan' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Karyawan::class, 
+        ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -97,7 +109,20 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        'mahasiswa' => [
+            'provider' => 'mahasiswa',
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'karyawan' => [
+            'provider' => 'karyawan',
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------
