@@ -17,7 +17,7 @@ Route::prefix('mahasiswa')->name('mahasiswa.')->group(function () {
     // Auth Routes
     Route::middleware('auth:mahasiswa')->group(function () {
         Route::get('/dashboard', function () {
-            return view('mahasiswa.dashboard');
+            return view('mahasiswa.layouts.index');
         })->name('dashboard');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

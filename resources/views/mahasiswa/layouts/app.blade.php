@@ -16,7 +16,7 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('mahasiswa.layouts.navigation')
+            @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
@@ -29,7 +29,7 @@
 
             <!-- Page Content -->
             <main>
-                @yield('content')
+                {{ $slot }}
             </main>
         </div>
     </body>

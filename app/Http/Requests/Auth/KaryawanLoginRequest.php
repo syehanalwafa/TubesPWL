@@ -22,7 +22,7 @@ class KaryawanLoginRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
      */
     public function rules(): array
     {
@@ -41,16 +41,14 @@ class KaryawanLoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        // Coba untuk melakukan autentikasi menggunakan guard 'karyawan'
         if (! Auth::guard('karyawan')->attempt($this->only('nik', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'nik' => trans('auth.failed'),
+                'nip' => trans('auth.failed'),
             ]);
         }
 
-        // Jika autentikasi berhasil, bersihkan throttle key
         RateLimiter::clear($this->throttleKey());
     }
 

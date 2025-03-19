@@ -34,13 +34,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $user = auth()->user();
-
-        if (!$user) {
-            return back()->withErrors(['login' => 'Akun tidak ditemukan atau belum terautentikasi.']);
-        }
-
-        return redirect()->intended($user->role == 'karyawan' ? route('karyawan.dashboard') : route('mahasiswa.dashboard'));
+        return redirect()->intended(route('karyawan.dashboard', absolute: false));
     }
 
     /**
@@ -52,7 +46,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('karyawan.login');
+        return redirect()->route('home');
     }
 }
-

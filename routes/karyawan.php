@@ -5,6 +5,7 @@ use App\Http\Controllers\Karyawan\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Karyawan\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+
 Route::prefix('karyawan')->name('karyawan.')->group(function () {
 
     Route::middleware('guest:karyawan')->group(function () {
@@ -17,7 +18,7 @@ Route::prefix('karyawan')->name('karyawan.')->group(function () {
     // Auth Routes
     Route::middleware('auth:karyawan')->group(function () {
         Route::get('/dashboard', function () {
-            return view('karyawan.dashboard');
+            return view('karyawan.layouts.index');
         })->name('dashboard');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -26,7 +27,7 @@ Route::prefix('karyawan')->name('karyawan.')->group(function () {
 
         Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
-        Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-            ->name('logout');
+        // Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+        //     ->name('logout');
     });
 });
